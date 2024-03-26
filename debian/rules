@@ -1,0 +1,3 @@
+#!/usr/bin/make -f
+%:
+	PATH=${PATH}:/usr/lib/go/bin dh $@ --builddirectory=_build --buildsystem=golang --with=golang

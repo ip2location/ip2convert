@@ -1,0 +1,16 @@
+Source: ip2convert
+Standards-Version: 4.6.2
+Maintainer: IP2Location <support@ip2location.com>
+Section: utils
+Priority: optional
+Build-Depends: debhelper-compat (= 13),
+               dh-golang,
+               golang
+Vcs-Git: https://github.com/ip2location/ip2convert
+Vcs-browser: https://github.com/ip2location/ip2convert
+Homepage: https://www.ip2location.com
+XS-Go-Import-Path: github.com/ip2location/ip2convert
+Package: ip2convert
+Version: 1.0.0
+Architecture: amd64
+Description: This is the official CLI for converting IP2Location CSV to MMDB.
