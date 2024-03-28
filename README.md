@@ -2,11 +2,11 @@
 
 ip2convert Geolocation File Format Converter
 ============================================
-This Go command line tool enables user to convert the IP2Location DB9 IPv6 CSV into the MMDB format (compatible with GeoLite2-City MMDB format).
+This Go command line tool enables user to convert between the following formats:
 
-For the commercial DB9, please go to https://www.ip2location.com/database/db9-ip-country-region-city-latitude-longitude-zipcode
+IP2Location DB1 CSV => MMDB (compatible with GeoLite2-Country MMDB format)
 
-For the free LITE DB9, please go to https://lite.ip2location.com/database/db9-ip-country-region-city-latitude-longitude-zipcode
+IP2Location DB9 CSV => MMDB (compatible with GeoLite2-City MMDB format)
 
 
 Installation
@@ -32,8 +32,8 @@ $GOPATH/bin/ip2convert
 #### Debian/Ubuntu (amd64)
 
 ```bash
-curl -LO https://github.com/ip2location/ip2convert/releases/download/v1.0.0/ip2convert-1.0.0.deb
-sudo dpkg -i ip2convert-1.0.0.deb
+curl -LO https://github.com/ip2location/ip2convert/releases/download/v1.1.0/ip2convert-1.1.0.deb
+sudo dpkg -i ip2convert-1.1.0.deb
 ```
 
 
@@ -87,12 +87,12 @@ After choosing a platform `PLAT` from above, run:
 
 ```bash
 # for Windows, use ".zip" instead of ".tar.gz"
-curl -LO https://github.com/ip2location/ip2convert/releases/download/v1.0.0/ip2convert_1.0.0_${PLAT}.tar.gz
+curl -LO https://github.com/ip2location/ip2convert/releases/download/v1.1.0/ip2convert_1.1.0_${PLAT}.tar.gz
 # OR
-wget https://github.com/ip2location/ip2convert/releases/download/v1.0.0/ip2convert_1.0.0_${PLAT}.tar.gz
+wget https://github.com/ip2location/ip2convert/releases/download/v1.1.0/ip2convert_1.1.0_${PLAT}.tar.gz
 
-tar -xvf ip2convert_1.0.0_${PLAT}.tar.gz
-mv ip2convert_1.0.0_${PLAT} /usr/local/bin/ip2convert
+tar -xvf ip2convert_1.1.0_${PLAT}.tar.gz
+mv ip2convert_1.1.0_${PLAT} /usr/local/bin/ip2convert
 ```
 
 
@@ -104,12 +104,29 @@ Usage Examples
 ip2convert -h
 ```
 
-### Convert IP2Location DB9 CSV into MMDB format (compatible with GeoLite2-City MMDB format)
+### Convert IP2Location DB1 IPv6 CSV into MMDB format (compatible with GeoLite2-Country MMDB format)
+
+For the commercial DB1, please go to https://www.ip2location.com/database/db1-ip-country
+
+For the free LITE DB1, please go to https://lite.ip2location.com/database/db1-ip-country
+
+NOTE: Not all fields in GeoLite2-Country are supported for this conversion.
+
+```bash
+ip2convert csv2mmdb -t country -i \myfolder\IPV6-COUNTRY.CSV -o \myfolder\DB1.MMDB
+```
+
+
+### Convert IP2Location DB9 IPv6 CSV into MMDB format (compatible with GeoLite2-City MMDB format)
+
+For the commercial DB9, please go to https://www.ip2location.com/database/db9-ip-country-region-city-latitude-longitude-zipcode
+
+For the free LITE DB9, please go to https://lite.ip2location.com/database/db9-ip-country-region-city-latitude-longitude-zipcode
 
 NOTE: Not all fields in GeoLite2-City are supported for this conversion.
 
 ```bash
-ip2convert csv2mmdb -i \myfolder\IPV6-COUNTRY-REGION-CITY-LATITUDE-LONGITUDE-ZIPCODE.CSV -o \myfolder\DB9.MMDB
+ip2convert csv2mmdb -t city -i \myfolder\IPV6-COUNTRY-REGION-CITY-LATITUDE-LONGITUDE-ZIPCODE.CSV -o \myfolder\DB9.MMDB
 ```
 
 

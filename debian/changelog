@@ -1,4 +1,8 @@
-ip2convert (1.0.0) jammy; urgency=medium
+ip2convert (1.1.0) jammy; urgency=medium
+
+  * 1.1.0 added support for MMDB Country format.
+
+ -- IP2Location <support@ip2location.com>  Thu, 28 Mar 2024 09:21:19 +0800
 
   * 1.0.0 release.
 
