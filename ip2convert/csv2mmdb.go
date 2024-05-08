@@ -3,7 +3,6 @@ package main
 import (
 	"bufio"
 	"encoding/csv"
-	"errors"
 	"fmt"
 	"github.com/maxmind/mmdbwriter"
 	"github.com/maxmind/mmdbwriter/mmdbtype"
@@ -121,30 +120,6 @@ func ConvertCSV2MMDB(input string, output string, mmdbType string) {
 	}
 }
 
-func DecimalToIPv4(IPNum *big.Int) (net.IP, error) {
-	if IPNum == nil || IPNum.Cmp(big.NewInt(0)) < 0 || IPNum.Cmp(maxIPv4Range) > 0 {
-		return nil, errors.New("Invalid IP number.")
-	}
-
-	buf := make([]byte, 4)
-	bytes := IPNum.FillBytes(buf)
-
-	ip := net.IP(bytes)
-	return ip, nil
-}
-
-func DecimalToIPv6(IPNum *big.Int) (net.IP, error) {
-	if IPNum == nil || IPNum.Cmp(big.NewInt(0)) < 0 || IPNum.Cmp(maxIPv6Range) > 0 {
-		return nil, errors.New("Invalid IP number.")
-	}
-
-	buf := make([]byte, 16)
-	bytes := IPNum.FillBytes(buf)
-
-	ip := net.IP(bytes)
-	return ip, nil
-}
-
 func AppendDB1CSVRecord(delim rune, parts []string, tree *mmdbwriter.Tree) error {
 	var err error
 
@@ -161,19 +136,15 @@ func AppendDB1CSVRecord(delim rune, parts []string, tree *mmdbwriter.Tree) error
 	var startIp net.IP
 	var endIp net.IP
 
-	startIp, err = DecimalToIPv4(startNum)
-	if err != nil {
-		startIp, err = DecimalToIPv6(startNum)
-		if err != nil {
+	if startIp, err = DecimalToIPv4(startNum); err != nil {
+		if startIp, err = DecimalToIPv6(startNum); err != nil {
 			return err
 		}
 	}
 	parts[0] = startIp.String()
 
-	endIp, err = DecimalToIPv4(endNum)
-	if err != nil {
-		endIp, err = DecimalToIPv6(endNum)
-		if err != nil {
+	if endIp, err = DecimalToIPv4(endNum); err != nil {
+		if endIp, err = DecimalToIPv6(endNum); err != nil {
 			return err
 		}
 	}
@@ -202,12 +173,10 @@ func AppendDB1CSVRecord(delim rune, parts []string, tree *mmdbwriter.Tree) error
 			splitIPv6[0] = "281474976710656"
 			splitIPv6[1] = oriEndNum
 
-			err = AppendDB1CSVRecord(delim, splitIPv4, tree)
-			if err != nil {
+			if err = AppendDB1CSVRecord(delim, splitIPv4, tree); err != nil {
 				return err
 			}
-			err = AppendDB1CSVRecord(delim, splitIPv6, tree)
-			if err != nil {
+			if err = AppendDB1CSVRecord(delim, splitIPv6, tree); err != nil {
 				return err
 			}
 		} else if !strings.Contains(err.Error(), "which is in an aliased network") {
@@ -233,19 +202,15 @@ func AppendDB9CSVRecord(delim rune, parts []string, tree *mmdbwriter.Tree) error
 	var startIp net.IP
 	var endIp net.IP
 
-	startIp, err = DecimalToIPv4(startNum)
-	if err != nil {
-		startIp, err = DecimalToIPv6(startNum)
-		if err != nil {
+	if startIp, err = DecimalToIPv4(startNum); err != nil {
+		if startIp, err = DecimalToIPv6(startNum); err != nil {
 			return err
 		}
 	}
 	parts[0] = startIp.String()
 
-	endIp, err = DecimalToIPv4(endNum)
-	if err != nil {
-		endIp, err = DecimalToIPv6(endNum)
-		if err != nil {
+	if endIp, err = DecimalToIPv4(endNum); err != nil {
+		if endIp, err = DecimalToIPv6(endNum); err != nil {
 			return err
 		}
 	}
@@ -305,12 +270,10 @@ func AppendDB9CSVRecord(delim rune, parts []string, tree *mmdbwriter.Tree) error
 			splitIPv6[0] = "281474976710656"
 			splitIPv6[1] = oriEndNum
 
-			err = AppendDB9CSVRecord(delim, splitIPv4, tree)
-			if err != nil {
+			if err = AppendDB9CSVRecord(delim, splitIPv4, tree); err != nil {
 				return err
 			}
-			err = AppendDB9CSVRecord(delim, splitIPv6, tree)
-			if err != nil {
+			if err = AppendDB9CSVRecord(delim, splitIPv6, tree); err != nil {
 				return err
 			}
 		} else if !strings.Contains(err.Error(), "which is in an aliased network") {

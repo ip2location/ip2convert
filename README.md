@@ -8,6 +8,8 @@ IP2Location DB1 CSV => MMDB (compatible with GeoLite2-Country MMDB format)
 
 IP2Location DB9 CSV => MMDB (compatible with GeoLite2-City MMDB format)
 
+IP2Location IPv6 CSV (DB1 to DB26 supported) => IP2Location BIN (compatible with all official IP2Location SDK & libraries)
+
 
 Installation
 ============
@@ -32,8 +34,8 @@ $GOPATH/bin/ip2convert
 #### Debian/Ubuntu (amd64)
 
 ```bash
-curl -LO https://github.com/ip2location/ip2convert/releases/download/v1.1.0/ip2convert-1.1.0.deb
-sudo dpkg -i ip2convert-1.1.0.deb
+curl -LO https://github.com/ip2location/ip2convert/releases/download/v1.2.0/ip2convert-1.2.0.deb
+sudo dpkg -i ip2convert-1.2.0.deb
 ```
 
 
@@ -87,12 +89,12 @@ After choosing a platform `PLAT` from above, run:
 
 ```bash
 # for Windows, use ".zip" instead of ".tar.gz"
-curl -LO https://github.com/ip2location/ip2convert/releases/download/v1.1.0/ip2convert_1.1.0_${PLAT}.tar.gz
+curl -LO https://github.com/ip2location/ip2convert/releases/download/v1.2.0/ip2convert_1.2.0_${PLAT}.tar.gz
 # OR
-wget https://github.com/ip2location/ip2convert/releases/download/v1.1.0/ip2convert_1.1.0_${PLAT}.tar.gz
+wget https://github.com/ip2location/ip2convert/releases/download/v1.2.0/ip2convert_1.2.0_${PLAT}.tar.gz
 
-tar -xvf ip2convert_1.1.0_${PLAT}.tar.gz
-mv ip2convert_1.1.0_${PLAT} /usr/local/bin/ip2convert
+tar -xvf ip2convert_1.2.0_${PLAT}.tar.gz
+mv ip2convert_1.2.0_${PLAT} /usr/local/bin/ip2convert
 ```
 
 
@@ -127,6 +129,19 @@ NOTE: Not all fields in GeoLite2-City are supported for this conversion.
 
 ```bash
 ip2convert csv2mmdb -t city -i \myfolder\IPV6-COUNTRY-REGION-CITY-LATITUDE-LONGITUDE-ZIPCODE.CSV -o \myfolder\DB9.MMDB
+```
+
+
+### Convert IP2Location IPv6 CSV into IP2Location BIN format (compatible with official IP2Location SDK & libraries)
+
+For the commercial CSVs, please go to https://www.ip2location.com/database/ip2location
+
+For the free LITE CSVs, please go to https://lite.ip2location.com/ip2location-lite
+
+DB1 to DB26 are supported.
+
+```bash
+ip2convert csv2bin -d 26 -i \myfolder\IPV6-COUNTRY-REGION-CITY-LATITUDE-LONGITUDE-ZIPCODE-TIMEZONE-ISP-DOMAIN-NETSPEED-AREACODE-WEATHER-MOBILE-ELEVATION-USAGETYPE-ADDRESSTYPE-CATEGORY-DISTRICT-ASN.CSV -o \myfolder\DB26IPV6.BIN
 ```
 
 

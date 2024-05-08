@@ -11,6 +11,6 @@ Vcs-browser: https://github.com/ip2location/ip2convert
 Homepage: https://www.ip2location.com
 XS-Go-Import-Path: github.com/ip2location/ip2convert
 Package: ip2convert
-Version: 1.1.0
+Version: 1.2.0
 Architecture: amd64
 Description: This is the official CLI for converting IP2Location CSV to MMDB.
