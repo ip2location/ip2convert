@@ -17,7 +17,7 @@ var cmdCSV2BINDBPackage string
 var cmdCSV2BINInput string
 var cmdCSV2BINOutput string
 
-const version string = "1.2.0"
+const version string = "1.2.1"
 const programName string = "ip2convert Geolocation File Format Converter"
 
 var showVer bool = false

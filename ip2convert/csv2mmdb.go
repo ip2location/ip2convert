@@ -127,6 +127,13 @@ func AppendDB1CSVRecord(delim rune, parts []string, tree *mmdbwriter.Tree) error
 	oriStartNum := parts[0]
 	oriEndNum := parts[1]
 
+	skipSpecialCase := false
+
+	if oriEndNum == "281474976710655" {
+		// should be LITE CSV which does not have range with IPv4 start and IPv6 end
+		skipSpecialCase = true
+	}
+
 	startNum := new(big.Int)
 	startNum, _ = startNum.SetString(parts[0], 10)
 
@@ -161,26 +168,28 @@ func AppendDB1CSVRecord(delim rune, parts []string, tree *mmdbwriter.Tree) error
 	record["country"] = country
 
 	if err = tree.InsertRange(startIp, endIp, record); err != nil {
-		if strings.Contains(err.Error(), "start & end IPs did not give valid range") { // special case where start IP is IPv4-mapped IPv6 (converted by Go into plain IPv4)
-			// need to split into 2 ranges
-			splitIPv4 := make([]string, len(parts))
-			splitIPv6 := make([]string, len(parts))
-			copy(splitIPv4, parts)
-			copy(splitIPv6, parts)
+		if skipSpecialCase {
+			if strings.Contains(err.Error(), "start & end IPs did not give valid range") { // special case where start IP is IPv4-mapped IPv6 (converted by Go into plain IPv4)
+				// need to split into 2 ranges
+				splitIPv4 := make([]string, len(parts))
+				splitIPv6 := make([]string, len(parts))
+				copy(splitIPv4, parts)
+				copy(splitIPv6, parts)
 
-			splitIPv4[0] = oriStartNum
-			splitIPv4[1] = "281474976710655"
-			splitIPv6[0] = "281474976710656"
-			splitIPv6[1] = oriEndNum
+				splitIPv4[0] = oriStartNum
+				splitIPv4[1] = "281474976710655"
+				splitIPv6[0] = "281474976710656"
+				splitIPv6[1] = oriEndNum
 
-			if err = AppendDB1CSVRecord(delim, splitIPv4, tree); err != nil {
+				if err = AppendDB1CSVRecord(delim, splitIPv4, tree); err != nil {
+					return err
+				}
+				if err = AppendDB1CSVRecord(delim, splitIPv6, tree); err != nil {
+					return err
+				}
+			} else if !strings.Contains(err.Error(), "which is in an aliased network") {
 				return err
 			}
-			if err = AppendDB1CSVRecord(delim, splitIPv6, tree); err != nil {
-				return err
-			}
-		} else if !strings.Contains(err.Error(), "which is in an aliased network") {
-			return err
 		}
 	}
 	return nil
@@ -192,6 +201,13 @@ func AppendDB9CSVRecord(delim rune, parts []string, tree *mmdbwriter.Tree) error
 	// these 2 fields are used for the special case where we need to split a range due the Go handling of IPv4-mapped IPv6 being treated as plain IPv4
 	oriStartNum := parts[0]
 	oriEndNum := parts[1]
+
+	skipSpecialCase := false
+
+	if oriEndNum == "281474976710655" {
+		// should be LITE CSV which does not have range with IPv4 start and IPv6 end
+		skipSpecialCase = true
+	}
 
 	startNum := new(big.Int)
 	startNum, _ = startNum.SetString(parts[0], 10)
@@ -258,26 +274,28 @@ func AppendDB9CSVRecord(delim rune, parts []string, tree *mmdbwriter.Tree) error
 	record["subdivisions"] = subdivisions
 
 	if err = tree.InsertRange(startIp, endIp, record); err != nil {
-		if strings.Contains(err.Error(), "start & end IPs did not give valid range") { // special case where start IP is IPv4-mapped IPv6 (converted by Go into plain IPv4)
-			// need to split into 2 ranges
-			splitIPv4 := make([]string, len(parts))
-			splitIPv6 := make([]string, len(parts))
-			copy(splitIPv4, parts)
-			copy(splitIPv6, parts)
+		if skipSpecialCase {
+			if strings.Contains(err.Error(), "start & end IPs did not give valid range") { // special case where start IP is IPv4-mapped IPv6 (converted by Go into plain IPv4)
+				// need to split into 2 ranges
+				splitIPv4 := make([]string, len(parts))
+				splitIPv6 := make([]string, len(parts))
+				copy(splitIPv4, parts)
+				copy(splitIPv6, parts)
 
-			splitIPv4[0] = oriStartNum
-			splitIPv4[1] = "281474976710655"
-			splitIPv6[0] = "281474976710656"
-			splitIPv6[1] = oriEndNum
+				splitIPv4[0] = oriStartNum
+				splitIPv4[1] = "281474976710655"
+				splitIPv6[0] = "281474976710656"
+				splitIPv6[1] = oriEndNum
 
-			if err = AppendDB9CSVRecord(delim, splitIPv4, tree); err != nil {
+				if err = AppendDB9CSVRecord(delim, splitIPv4, tree); err != nil {
+					return err
+				}
+				if err = AppendDB9CSVRecord(delim, splitIPv6, tree); err != nil {
+					return err
+				}
+			} else if !strings.Contains(err.Error(), "which is in an aliased network") {
 				return err
 			}
-			if err = AppendDB9CSVRecord(delim, splitIPv6, tree); err != nil {
-				return err
-			}
-		} else if !strings.Contains(err.Error(), "which is in an aliased network") {
-			return err
 		}
 	}
 	return nil
