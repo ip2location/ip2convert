@@ -73,7 +73,7 @@ func WriteBIN(input string, output string, dbPackage string) {
 	var longSize uint32 = 4
 	dbColl := columnSize[dbType]
 	var ipv6Count uint32 = 0
-	var ipv6Base uint32 = 0
+	var ipv6Base uint32
 
 	// cannot have initial size as we won't know the total elements for each until we read the CSV
 	country := map[string]*countryType{}
@@ -177,6 +177,20 @@ func WriteBIN(input string, output string, dbPackage string) {
 			return
 		}
 
+		if parts[0] == "0" && parts[1] == "281470681743359" {
+			continue // just skip the uncompressed line at the start of LITE
+		}
+		if parts[0] == "281470681743360" && parts[1] == "1470698520575" {
+			parts[0] = "0" // compress the 2 lines at the start of LITE into 1 line
+		}
+
+		if parts[0] == "281474439839744" && parts[1] == "281474976710655" {
+			continue // just skip the uncompressed line in the LITE for the IPv4/IPv6 boundary
+		}
+		if parts[0] == "281474976710656" && parts[1] == "42540528726795050063891204319802818559" {
+			parts[0] = "281474439839744" // compress the 2 lines in the LITE for the IPv4/IPv6 boundary into 1 line
+		}
+
 		lines++
 
 		if parts[2] == "UK" {
@@ -264,6 +278,18 @@ func WriteBIN(input string, output string, dbPackage string) {
 		endNum := new(big.Int)
 		endNum, _ = endNum.SetString(parts[1], 10)
 
+		// need to detect if is IPv4 CSV and show error
+		// check line 10 because some IPv6 CSV has IPv4 ranges at the start
+		if lines == 10 {
+			endOfIPV4 := new(big.Int)
+			endOfIPV4, _ = endOfIPV4.SetString("4294967295", 10) // 255.255.255.255
+
+			if startNum.Cmp(endOfIPV4) <= 0 || endNum.Cmp(endOfIPV4) <= 0 {
+				fmt.Println("Please use IP2Location IPv6 CSV.")
+				return
+			}
+		}
+
 		var startIP net.IP
 		var endIP net.IP
 
@@ -336,7 +362,6 @@ func WriteBIN(input string, output string, dbPackage string) {
 				lastIPv4To = "16777215"
 				ipv4Count++
 			}
-
 		} else { // normal case where ISP field not present or is IPv4 CSV or rows not covered by the above criteria
 			if startIP, err = DecimalToIPv4(startNum); err != nil {
 				if startIP, err = DecimalToIPv6(startNum); err != nil {
@@ -736,6 +761,20 @@ func WriteBIN(input string, output string, dbPackage string) {
 		} else if err != nil {
 			fmt.Println("Unable to read input file.")
 			return
+		}
+
+		if parts[0] == "0" && parts[1] == "281470681743359" {
+			continue // just skip the uncompressed line at the start of LITE
+		}
+		if parts[0] == "281470681743360" && parts[1] == "1470698520575" {
+			parts[0] = "0" // compress the 2 lines at the start of LITE into 1 line
+		}
+
+		if parts[0] == "281474439839744" && parts[1] == "281474976710655" {
+			continue // just skip the uncompressed line in the LITE for the IPv4/IPv6 boundary
+		}
+		if parts[0] == "281474976710656" && parts[1] == "42540528726795050063891204319802818559" {
+			parts[0] = "281474439839744" // compress the 2 lines in the LITE for the IPv4/IPv6 boundary into 1 line
 		}
 
 		lines++
@@ -1291,9 +1330,9 @@ func WriteBIN(input string, output string, dbPackage string) {
 				ipv4boundary = false
 
 				var err error
-				var v4Bytes []byte
 				var v6Bytes []byte
 
+				var v4Bytes []byte
 				// IPv4 part
 				v4Bytes, err = IPv4ToBytes("255.255.255.255")
 				if err != nil {

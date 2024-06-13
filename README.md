@@ -34,8 +34,8 @@ $GOPATH/bin/ip2convert
 #### Debian/Ubuntu (amd64)
 
 ```bash
-curl -LO https://github.com/ip2location/ip2convert/releases/download/v1.2.1/ip2convert-1.2.1.deb
-sudo dpkg -i ip2convert-1.2.1.deb
+curl -LO https://github.com/ip2location/ip2convert/releases/download/v1.2.2/ip2convert-1.2.2.deb
+sudo dpkg -i ip2convert-1.2.2.deb
 ```
 
 
@@ -89,12 +89,12 @@ After choosing a platform `PLAT` from above, run:
 
 ```bash
 # for Windows, use ".zip" instead of ".tar.gz"
-curl -LO https://github.com/ip2location/ip2convert/releases/download/v1.2.1/ip2convert_1.2.1_${PLAT}.tar.gz
+curl -LO https://github.com/ip2location/ip2convert/releases/download/v1.2.2/ip2convert_1.2.2_${PLAT}.tar.gz
 # OR
-wget https://github.com/ip2location/ip2convert/releases/download/v1.2.1/ip2convert_1.2.1_${PLAT}.tar.gz
+wget https://github.com/ip2location/ip2convert/releases/download/v1.2.2/ip2convert_1.2.2_${PLAT}.tar.gz
 
-tar -xvf ip2convert_1.2.1_${PLAT}.tar.gz
-mv ip2convert_1.2.1_${PLAT} /usr/local/bin/ip2convert
+tar -xvf ip2convert_1.2.2_${PLAT}.tar.gz
+mv ip2convert_1.2.2_${PLAT} /usr/local/bin/ip2convert
 ```
 
 

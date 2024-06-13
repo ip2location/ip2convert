@@ -1,4 +1,8 @@
-ip2convert (1.2.1) jammy; urgency=medium
+ip2convert (1.2.2) jammy; urgency=medium
+
+  * 1.2.2 fixed conversion for BIN with IP2Location LITE CSV.
+
+ -- IP2Location <support@ip2location.com>  Thu, 13 Jun 2024 12:17:19 +0800
 
   * 1.2.1 fixed conversion for MMDB with IP2Location LITE CSV.
 

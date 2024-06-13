@@ -17,7 +17,7 @@ var cmdCSV2BINDBPackage string
 var cmdCSV2BINInput string
 var cmdCSV2BINOutput string
 
-const version string = "1.2.1"
+const version string = "1.2.2"
 const programName string = "ip2convert Geolocation File Format Converter"
 
 var showVer bool = false
@@ -155,7 +155,7 @@ NOTE:
   OR download the free LITE DB9 from https://lite.ip2location.com
 
 
-To convert IP2Location DB CSV to IP2Location BIN
+To convert IP2Location DB IPv6 CSV to IP2Location BIN
 
   Usage: EXE csv2bin [OPTION]
 
@@ -168,7 +168,7 @@ To convert IP2Location DB CSV to IP2Location BIN
 
 NOTE:
 
-  The conversion requires the IP2Location DB CSV file.
+  The conversion requires the IP2Location DB IPv6 CSV file.
 
   You can either subscribe to the commercial DB at https://www.ip2location.com
   OR download the free LITE DB from https://lite.ip2location.com
