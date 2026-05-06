@@ -38,10 +38,13 @@ func ConvertCSV2MMDB(input string, output string, mmdbType string) {
 	var rdr *csv.Reader
 
 	var dbDesc string
+	var dbType string
 
 	if mmdbType == "country" {
+		dbType = "GeoLite2-Country"         // need this to be able to use the Maxmind API for GeoLite2 Country
 		dbDesc = "GeoLite2Country database" // need this to be able to use the Maxmind API for GeoLite2 Country
 	} else if mmdbType == "city" {
+		dbType = "GeoLite2-City"         // need this to be able to use the Maxmind API for GeoLite2 City
 		dbDesc = "GeoLite2City database" // need this to be able to use the Maxmind API for GeoLite2 City
 	} else {
 		fmt.Println("Invalid MMDB type.")
@@ -76,7 +79,7 @@ func ConvertCSV2MMDB(input string, output string, mmdbType string) {
 		if tree == nil {
 			tree, err = mmdbwriter.New(
 				mmdbwriter.Options{
-					DatabaseType: dbDesc,
+					DatabaseType: dbType,
 					Description: map[string]string{
 						"en": dbDesc,
 					},

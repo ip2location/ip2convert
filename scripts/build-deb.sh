@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="1.2.2"
+VERSION="1.2.3"
 
 rm -rf ../dist
 mkdir -p ../dist/DEBIAN/

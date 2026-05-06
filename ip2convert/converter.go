@@ -17,7 +17,7 @@ var cmdCSV2BINDBPackage string
 var cmdCSV2BINInput string
 var cmdCSV2BINOutput string
 
-const version string = "1.2.2"
+const version string = "1.2.3"
 const programName string = "ip2convert Geolocation File Format Converter"
 
 var showVer bool = false
@@ -123,11 +123,11 @@ func PrintUsage() {
     -h                   Print this help
 
 
-To convert IP2Location DB1 CSV to MMDB (compatible with GeoLite2-Country MMDB format)
+To convert IP2Location DB1 IPv6 CSV to MMDB (compatible with GeoLite2-Country MMDB format)
 
   Usage: EXE csv2mmdb -t country [OPTION]
 
-    -i                   Specify the input path to the DB1 CSV file
+    -i                   Specify the input path to the DB1 IPv6 CSV file
 
     -o                   Specify the output path to the MMDB file
 

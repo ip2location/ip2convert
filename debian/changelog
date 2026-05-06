@@ -1,4 +1,8 @@
-ip2convert (1.2.2) jammy; urgency=medium
+ip2convert (1.2.3) jammy; urgency=medium
+
+  * 1.2.3 fixed database_type missing a dash.
+
+ -- IP2Location <support@ip2location.com>  Wed, 6 May 2026 15:00:19 +0800
 
   * 1.2.2 fixed conversion for BIN with IP2Location LITE CSV.
 
