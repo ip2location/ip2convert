@@ -1,5 +1,3 @@
-[![Go Report Card](https://goreportcard.com/badge/github.com/ip2location/ip2convert)](https://goreportcard.com/report/github.com/ip2location/ip2convert)
-
 ip2convert Geolocation File Format Converter
 ============================================
 This Go command line tool enables user to convert between the following formats:
